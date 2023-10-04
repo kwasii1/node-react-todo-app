@@ -1,0 +1,11 @@
+After creating the react frontend:
+Create a folder backend in the project root
+run npm init
+install express and other necessary packages
+Create app.js/server.js/index.js file in backend root
+require the necessary packages
+create auth,controllers,config,routes,models folder
+run knex init
+edit development setting with your database connection information
+Create db.js file in config folder
+require knexfile.js and knex in the file
