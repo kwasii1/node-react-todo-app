@@ -5,7 +5,25 @@ install express and other necessary packages
 Create app.js/server.js/index.js file in backend root
 require the necessary packages
 create auth,controllers,config,routes,models folder
+
+
+DATABASE SECTION:
 run knex init
 edit development setting with your database connection information
 Create db.js file in config folder
 require knexfile.js and knex in the file
+create models in the models folder. Require db.js in the models
+Use knex migrate:make to create migrations
+
+CSRF SECTION:
+Create a csrf_protection.js file in auth folder
+Must include a generatetoken and verifytoken function
+Require csrf_protection.js in app.js/server.js/index.js
+And use app.generatetoken as a middleware
+On pages that include forms include an input field with the value set to {csrfToken}
+
+
+AUTH SECTION:
+Require passport in app.js/server.js/index.js
+Add the passport.initialize and passport.session middleware
+Create a local strategy called passport.js that contains login logic. Require passport local in this file
