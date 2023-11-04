@@ -10,7 +10,7 @@ exports.up = function(knex) {
         table.string('category').notNullable();
         table.string('startdate').notNullable();
         table.string('duration').notNullable();
-        table.timestamps().defaultTo(knex.fn.now());
+        table.timestamps({defaultToNow:true});
     })
 };
 

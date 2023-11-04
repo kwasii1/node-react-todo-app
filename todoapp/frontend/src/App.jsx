@@ -8,6 +8,7 @@ import ViewTask from './containers/ViewTask'
 import EditTask from './containers/EditTask'
 import Profile from './containers/Profile'
 import EditProfile from './containers/EditProfile'
+import View from './containers/View'
 
 function App() {
 	
@@ -19,7 +20,8 @@ function App() {
 				<Route path="/register" Component={Register} />
 				<Route path="/addtask" Component={AddTask} />
 				<Route path="/viewtask" Component={ViewTask} />
-				<Route path="/edittask" Component={EditTask} />
+				<Route path="/viewtask/:taskid" Component={View} />
+				<Route path="/edittask/:taskid" Component={EditTask} />
 				<Route path="/profile" Component={Profile} />
 				<Route path="/editprofile" Component={EditProfile} />
 			</Routes>

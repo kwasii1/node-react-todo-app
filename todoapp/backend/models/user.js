@@ -11,6 +11,10 @@ const User = {
 
     async findByEmail(email) {
         return db('users').where('email', email).first();
+    },
+
+    async findById(id) {
+        return db('users').where('user_id', id).first();
     }
 }
 

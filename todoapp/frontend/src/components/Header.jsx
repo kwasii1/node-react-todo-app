@@ -1,7 +1,8 @@
 import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, UserCircleIcon, XMarkIcon } from "@heroicons/react/24/outline";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 
 const navigation = [
@@ -16,6 +17,19 @@ function classNames(...classes) {
 }
 
 export default function Header() {
+	const navigate = useNavigate();
+
+	function handleLogout(){
+		axios.post('http://localhost:3000/logout',[],{withCredentials:true})
+		.then((response) => {
+			if(response.status === 200){
+				navigate('/login')
+			}
+		})
+		.catch((err) => {
+			console.log(err);
+		})
+	}
 	return (
 		<Disclosure as="nav" className="bg-gray-800">
 			{({ open }) => (
@@ -150,6 +164,7 @@ export default function Header() {
 												{({ active }) => (
 													<a
 														href="#"
+														onClick={handleLogout}
 														className={classNames(
 															active
 																? "bg-gray-100"

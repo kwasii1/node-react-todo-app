@@ -4,33 +4,65 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 var cookieParser = require('cookie-parser');
 const passport = require('passport');
-var csrf = require('./auth/csrf_protection')
-var registerRouter = require('./routes/registerRoute');
+const Mysqlstore = require('express-mysql-session')(session);
+let options = {
+    host: "localhost",
+    port: 3306,
+    user: "root",
+    password: "",
+    database: "todoapp",
+    expiration: 1000 * 60 * 60 * 24,
+    clearExpired: true,
+    checkExpirationInterval: 1000 * 60 * 60 * 24, //per day db cleaning
+};
+
+let sessionStore = new Mysqlstore(options);
+var csrf = require('./auth/csrf_protection');
+const registerRouter = require('./routes/registerRoute');
+const loginRouter = require('./routes/loginRoute');
+const logoutRouter = require('./routes/logoutRouter');
+const taskRouter = require('./routes/taskRoute');
+const { loginCheck } = require('./auth/passport');
+loginCheck(passport)
 
 const app = express();
-const port = 3001;
-app.use(express.json())
-app.use(express.urlencoded({extended:false}))
-app.use(cookieParser())
+const port = 3000;
+
+app.use(express.json());
+app.use(express.urlencoded({extended:false}));
+app.use(cookieParser());
 app.use(session({
     secret:'kwasibaidoo',
-    saveUninitialized: false,
+    saveUninitialized: true,
     resave: false,
+    store: sessionStore,
     cookie: {
-        maxAge: 24*60*60*1000
+        maxAge: 24*60*60*1000,
+        sameSite: 'lax',
+        httpOnly: false,
+        domain: "localhost",
+        secure: false,
     }
 }));
+app.use(cors({
+    origin: ['http://localhost:5173'], 
+    credentials: true,
+    optionsSuccessStatus: 204,
+    methods: ['GET,HEAD,PUT,PATCH,POST,DELETE'],
+}))
 
+// PASSPORT MIDDLEWARE
 app.use(passport.initialize())
 app.use(passport.session())
 app.use(csrf.generateCSRFToken)
-app.use(cors());
-app.use(bodyParser.json());
+
+
 
 // ROUTES
-app.use('/api',registerRouter)
-
-
+app.use('/api',registerRouter);
+app.use('/login',loginRouter);
+app.use('/logout',logoutRouter);
+app.use('/tasks',taskRouter)
 
 
 

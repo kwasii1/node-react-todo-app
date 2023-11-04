@@ -29,6 +29,7 @@ const loginCheck = passport => {
 	);
 	//  If successfully verified, Passport will call the serializeUser function
 	passport.serializeUser((user, done) => {
+		console.log("serialized");
 		done(null, user.user_id);
 	});
 	// When the session is authenticated, Passport will call the deserializeUser function

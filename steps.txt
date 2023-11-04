@@ -21,9 +21,13 @@ Must include a generatetoken and verifytoken function
 Require csrf_protection.js in app.js/server.js/index.js
 And use app.generatetoken as a middleware
 On pages that include forms include an input field with the value set to {csrfToken}
+Make sure you configure cors and session middleware correctly!!! This is very important
+To get the csrfToken on the frontend use the useEffect hook.
+Within it make a get request to the backend which will return the csrfToken in json
 
 
 AUTH SECTION:
 Require passport in app.js/server.js/index.js
 Add the passport.initialize and passport.session middleware
 Create a local strategy called passport.js that contains login logic. Require passport local in this file
+Require the passport.js created in auth in your app.js/server.js/index.js as well
